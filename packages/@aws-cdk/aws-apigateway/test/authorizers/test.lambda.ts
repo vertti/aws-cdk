@@ -12,7 +12,7 @@ export = {
     const func = new lambda.Function(stack, 'myfunction', {
       handler: 'handler',
       code: lambda.Code.fromInline('foo'),
-      runtime: lambda.Runtime.NODEJS_10_X,
+      runtime: lambda.Runtime.NODEJS_8_10,
     });
 
     new apigateway.LambdaTokenAuthorizer(stack, 'myauthorizer', {

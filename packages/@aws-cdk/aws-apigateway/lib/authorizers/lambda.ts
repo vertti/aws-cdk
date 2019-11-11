@@ -1,8 +1,11 @@
 import iam = require('@aws-cdk/aws-iam');
 import lambda = require('@aws-cdk/aws-lambda');
-import { Construct, Duration, Resource, Stack } from '@aws-cdk/core';
+import { Construct, Duration, PhysicalName, Resource, Stack } from '@aws-cdk/core';
 import { CfnAuthorizer, IAuthorizer, IRestApi } from '../../lib';
 
+/**
+ * Properties for LambdaTokenAuthorizer
+ */
 export interface LambdaTokenAuthorizerProps {
 
   /**
@@ -24,7 +27,7 @@ export interface LambdaTokenAuthorizerProps {
   readonly function: lambda.IFunction;
 
   /**
-   * The name of the request header holding the authorization token submitted by the client.
+   * The name of the header in the request that contains the authorization token as submitted by the client.
    */
   readonly headerName: string;
 
@@ -75,7 +78,7 @@ export class LambdaTokenAuthorizer extends Resource implements IAuthorizer {
 
   constructor(scope: Construct, id: string, props: LambdaTokenAuthorizerProps) {
     super(scope, id, {
-      physicalName: props.name
+      physicalName: props.name || PhysicalName.GENERATE_IF_NEEDED
     });
 
     if (props.resultsCacheTtl && props.resultsCacheTtl.toSeconds() > 3600) {
